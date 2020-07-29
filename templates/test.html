@@ -2,11 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<!--    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">-->
     <link rel="icon" href="{{url_for('static', filename='tool.ico')}}">
-<!--    <script src="{{url_for('static', filename='js/codemirror.min.js')}}"></script>-->
-    <script src="{{url_for('static', filename='js/simple.min.js')}}"></script>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/codemirror.min.css')}}">
     <script src="{{url_for('static', filename='js/python.js')}}"></script>
 <!--    <link href="{{url_for('static', filename='css/normalize.min.css')}}" rel="stylesheet">-->
     <!-- Bootstrap Core CSS -->
@@ -27,10 +24,10 @@
     </style>
 </head>
 <body>
-<div style="width: 840px; margin: auto;">
-    <h1>{{ data[1] }}</h1>
-    <p> 第{{ data[0] }}题</p>
-    <p >{{ "[" + data[2] + "]" + ", 难度: " + data[4] }}</p>
+<div style="width: 640px; margin: auto;">
+    <h2>{{ data[1] }}</h2>
+    <h4> 第{{ data[0] }}题</h4>
+    <h4>{{ "[" + data[2] + "]" + ", 难度: " + data[4] }}</h4>
 <!--代码输出区-->
     <pre class="python">
         <textarea class="form-control" rows="{{ data[-1] + 3 }}" name="code"> {{ data[3] }}</textarea>
@@ -42,10 +39,10 @@
 {% for key, option in data[5].items() %}
     <label class="ant-checkbox-group-item ant-checkbox-wrapper">
         <span class="ant-checkbox">
-            <input type="checkbox" class="ant-checkbox-input" id="{{ key }}" name="check" value="{{key}}">
+            <input type="radio" class="ant-checkbox-input" id="{{ key }}" name="check" value="{{key}}">
             <span class="ant-checkbox-inner"></span>
         </span>
-        <span> {{key}} &nbsp{{option}}</span>
+        <span style="font-weight: normal"> {{key}} &nbsp{{option}}</span>
     </label>
 {% endfor %}
 </div>
@@ -54,17 +51,17 @@
 </p>
 </div>
 <p><p>
-<button class="btn btn-success" style="font-size: 20px" onclick="javascript:jump()">计算得分</button>
+<button class="btn btn-success" style="font-size: 15px" onclick="javascript:jump()">计算得分</button>
 <!---->
 <a href="{{ url_for('test', num=data[0] - 1) }}">
-    <button class="btn btn-success" style="font-size: 20px">上一题</button>
+    <button class="btn btn-success" style="font-size: 15px">上一题</button>
 </a>
 <a href="{{ url_for('test', num=data[0] + 1) }}">
-    <button class="btn btn-success" style="font-size: 20px">下一题</button>
+    <button class="btn btn-success" style="font-size: 15px">下一题</button>
 </a>
 
 <a href="{{url_for('index')}}" target="_blank">
-    <button class="btn btn-success" style="font-size: 20px">返回首页</button>
+    <button class="btn btn-success" style="font-size: 15px">返回首页</button>
 </a>
 </div>
 </body>
@@ -73,12 +70,28 @@
 </script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/chunk1.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/chunk2.js') }}"></script>
-<!--用于隐藏答案的js-->
+<!--用于确定单选还是多选的js-->
+<script type="text/javascript">
+    let answer_type = "{{ data[2] }}"
+    if (answer_type === '多选题'){
+        let x = document.getElementsByClassName('ant-checkbox-input')
+        for (i = 0; i<x.length; i++){
+            console.log(x[i]) ;
+            x[i].type = 'checkbox'
+        }
+    }
+</script>
+<!--用于给出答案并计算得分的js-->
 <script type="text/javascript">
     function jump(message) {
         let answer_str1 = "{{ data[6] }}"
         let list1 = new Array();
 			$("input[type=checkbox][name=check]").each(function(){
+				if($(this).prop('checked')){
+					list1.push($(this).val());
+					}
+				});
+			$("input[type=radio][name=check]").each(function(){
 				if($(this).prop('checked')){
 					list1.push($(this).val());
 					}
