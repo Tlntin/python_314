@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <link rel="icon" href="{{url_for('static', filename='tool.ico')}}">
+<!--    <script src="{{url_for('static', filename='js/codemirror.min.js')}}"></script>-->
+    <script src="{{url_for('static', filename='js/simple.min.js')}}"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/codemirror.min.css')}}">
+    <script src="{{url_for('static', filename='js/python.js')}}"></script>
+<!--    <link href="{{url_for('static', filename='css/normalize.min.css')}}" rel="stylesheet">-->
+    <!-- Bootstrap Core CSS -->
+    <link href="{{url_for('static', filename='css/bootstrap.min.css')}}" rel="stylesheet">
+     <script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/clipboard.min.js')}}"></script>
+<!--    <link href="{{url_for('static', filename='css/chunk1.css')}}" rel="stylesheet">-->
+    <link href="{{url_for('static', filename='css/chunk2.css')}}" rel="stylesheet">
+    <title>python练习题</title>
+    <style>
+    #btn{
+        width: 100px;
+    }
+    #spread{
+        height: 0;
+        overflow: hidden;
+    }
+    </style>
+</head>
+<body>
+<div style="width: 840px; margin: auto;">
+    <h1>{{ data[1] }}</h1>
+    <p> 第{{ data[0] }}题</p>
+    <p >{{ "[" + data[2] + "]" + ", 难度: " + data[4] }}</p>
+<!--代码输出区-->
+    <pre class="python">
+        <textarea class="form-control" rows="{{ data[-1] + 3 }}" name="code"> {{ data[3] }}</textarea>
+    </pre>
+<!-- 选项区 -->
+<div class="question">
+<div class="question-content">
+<div class="ant-checkbox-group">
+{% for key, option in data[5].items() %}
+    <label class="ant-checkbox-group-item ant-checkbox-wrapper">
+        <span class="ant-checkbox">
+            <input type="checkbox" class="ant-checkbox-input" id="{{ key }}" name="check" value="{{key}}">
+            <span class="ant-checkbox-inner"></span>
+        </span>
+        <span> {{key}} &nbsp{{option}}</span>
+    </label>
+{% endfor %}
+</div>
+</div>
+<p class="right-answer" id="right-answer">
+</p>
+</div>
+<p><p>
+<button class="btn btn-success" style="font-size: 20px" onclick="javascript:jump()">计算得分</button>
+<!---->
+<a href="{{ url_for('test', num=data[0] - 1) }}">
+    <button class="btn btn-success" style="font-size: 20px">上一题</button>
+</a>
+<a href="{{ url_for('test', num=data[0] + 1) }}">
+    <button class="btn btn-success" style="font-size: 20px">下一题</button>
+</a>
+
+<a href="{{url_for('index')}}" target="_blank">
+    <button class="btn btn-success" style="font-size: 20px">返回首页</button>
+</a>
+</div>
+</body>
+<script>
+    !function(l){function e(e){for(var r,t,n=e[0],o=e[1],u=e[2],f=0,i=[];f<n.length;f++)t=n[f],p[t]&&i.push(p[t][0]),p[t]=0;for(r in o)Object.prototype.hasOwnProperty.call(o,r)&&(l[r]=o[r]);for(s&&s(e);i.length;)i.shift()();return c.push.apply(c,u||[]),a()}function a(){for(var e,r=0;r<c.length;r++){for(var t=c[r],n=!0,o=1;o<t.length;o++){var u=t[o];0!==p[u]&&(n=!1)}n&&(c.splice(r--,1),e=f(f.s=t[0]))}return e}var t={},p={1:0},c=[];function f(e){if(t[e])return t[e].exports;var r=t[e]={i:e,l:!1,exports:{}};return l[e].call(r.exports,r,r.exports,f),r.l=!0,r.exports}f.m=l,f.c=t,f.d=function(e,r,t){f.o(e,r)||Object.defineProperty(e,r,{enumerable:!0,get:t})},f.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},f.t=function(r,e){if(1&e&&(r=f(r)),8&e)return r;if(4&e&&"object"==typeof r&&r&&r.__esModule)return r;var t=Object.create(null);if(f.r(t),Object.defineProperty(t,"default",{enumerable:!0,value:r}),2&e&&"string"!=typeof r)for(var n in r)f.d(t,n,function(e){return r[e]}.bind(null,n));return t},f.n=function(e){var r=e&&e.__esModule?function(){return e.default}:function(){return e};return f.d(r,"a",r),r},f.o=function(e,r){return Object.prototype.hasOwnProperty.call(e,r)},f.p="/";var r=window.webpackJsonp=window.webpackJsonp||[],n=r.push.bind(r);r.push=e,r=r.slice();for(var o=0;o<r.length;o++)e(r[o]);var s=n;a()}([])
+</script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/chunk1.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/chunk2.js') }}"></script>
+<!--用于隐藏答案的js-->
+<script type="text/javascript">
+    function jump(message) {
+        let answer_str1 = "{{ data[6] }}"
+        let list1 = new Array();
+			$("input[type=checkbox][name=check]").each(function(){
+				if($(this).prop('checked')){
+					list1.push($(this).val());
+					}
+				});
+        answer_str1 = "{{ data[6] }}"
+        let answer_list = new Array()
+        answer_list = answer_str1.split(",");
+        // console.log(list1);
+        // console.log(answer_list);
+        let output = '<span>正确答案为：<b>' + answer_list.toString() +'</b></span><span>\n你的答案为：<b>'+ list1.toString() + '</b></span>\n';
+        if (answer_list.toString() === list1.toString()){
+            output = output + '<span class="kkb-success">回答正确，本次得1分</span>';
+            // alert(output)
+            document.getElementById('right-answer').innerHTML = output;
+        }
+        else{
+            output = output + '<span class="kkb-error">回答错误，本次不得分</span>';
+            // alert(output)
+            document.getElementById('right-answer').innerHTML = output;
+        }
+
+
+    }
+</script>
+</html>

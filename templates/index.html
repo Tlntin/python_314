@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <link rel="icon" href="{{url_for('static', filename='tool.ico')}}">
+    <script type="text/javascript" src="{{url_for('static', filename='js/index.js')}}"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
+    <title>首页</title>
+</head>
+<body>
+<div style="width: 640px; margin: auto;">
+<p>答题界面</p>
+<a href="{{ url_for('test', num=1) }}">python基础</a>
+<br/>
+<a href="{{ url_for('test', num=86) }}">python机器学习与神经网络</a>
+<br/>
+<a href="{{ url_for('about') }}" target="_blank">关于答题</a>
+<br/>
+<a href="https://github.com/Tlntin/python-100-" target="_blank">另外一套Python答题</a>
+<br/>
+<p>qq交流群：974759263</p>
+<a href="https://www.vbahome.cn" target="_blank">博客</a>
+<a href="https://hao.ztjs.top" target="_blank">导航</a>
+<a href="https://github.com/Tlntin/python_314" target="_blank">开源地址</a>
+<a href="https://hao.ztjs.top" target="_blank">python在线练习</a>
+<div style="text-align: center">
+    <a href="http://www.miibeian.gov.cn/" target="_blank">备案号：粤ICP备18110825号</a>
+</div>
+</div>
+</body>
+</html>
